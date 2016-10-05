@@ -2,7 +2,7 @@ package com.dreamdream.model;
 
 import java.io.Serializable;
 
-import com.dreamdream.dao.BasePo;
+import com.dreamdream.dao.base.BasePo;
 
 @SuppressWarnings("serial")
 public class WxDreamer extends BasePo implements Serializable {

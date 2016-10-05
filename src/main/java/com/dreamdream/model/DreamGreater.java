@@ -3,7 +3,7 @@ package com.dreamdream.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.dreamdream.dao.BasePo;
+import com.dreamdream.dao.base.BasePo;
 
 @SuppressWarnings("serial")
 public class DreamGreater extends BasePo implements Serializable {

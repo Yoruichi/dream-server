@@ -1,4 +1,4 @@
-package com.dreamdream.dao;
+package com.dreamdream.dao.base;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -7,10 +7,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dreamdream.dao.base.BasePo;
+import com.dreamdream.dao.base.ConditionField;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.dreamdream.dao.BasePo;
-import com.dreamdream.dao.ConditionField;
 
 public class SqlBuilder {
 
@@ -187,12 +187,12 @@ public class SqlBuilder {
 
     public static String getSelectOneSql(Class<? extends BasePo> c,
             List<ConditionField> conditionFields, List<Field> includeFields) {
-        return getSelectSql(c, conditionFields, includeFields, null, false);
+        return getSelectSql(c, conditionFields, includeFields, null, false, 0, 0);
     }
 
     public static String getSelectSql(Class<? extends BasePo> c,
             List<ConditionField> conditionFields, List<Field> includeFields, Field orderField,
-            boolean asc) {
+            boolean asc, int limit, int index) {
         StringBuilder sb = new StringBuilder();
         sb.append("select ");
         for (Field field : includeFields) {
@@ -226,6 +226,12 @@ public class SqlBuilder {
         if (orderField != null) {
             sb.append(" order by `").append(getDbName(orderField.getName()))
                     .append(asc ? "` asc" : " desc");
+        }
+        if (limit > 0) {
+            sb.append(" limit ").append(limit);
+            if(index > 0) {
+                sb.append(" offset ").append(index);
+            }
         }
         return sb.toString();
     }
@@ -266,6 +272,18 @@ public class SqlBuilder {
         return getSelectManyNeed(o, "id", true);
     }
 
+    public static SelectNeed getSelectManyNeed(BasePo o, String orderField, boolean asc, int limit, int index)
+            throws Exception {
+        Class<? extends BasePo> clazz = o.getClass();
+        Field[] fs = clazz.getDeclaredFields();
+        String[] includeFields = new String[fs.length];
+        for (int i = 0; i < fs.length; i++) {
+            includeFields[i] = fs[i].getName();
+        }
+        Field orderByField = clazz.getDeclaredField(orderField);
+        return getSelectManyNeed(o, includeFields, orderByField, asc, limit, index);
+    }
+    
     public static SelectNeed getSelectManyNeed(BasePo o, String orderField, boolean asc)
             throws Exception {
         Class<? extends BasePo> clazz = o.getClass();
@@ -275,7 +293,7 @@ public class SqlBuilder {
             includeFields[i] = fs[i].getName();
         }
         Field orderByField = clazz.getDeclaredField(orderField);
-        return getSelectManyNeed(o, includeFields, orderByField, asc);
+        return getSelectManyNeed(o, includeFields, orderByField, asc, o.getLimit(), o.getIndex());
     }
 
     public static void setBasePoReady(BasePo o) throws Exception {
@@ -293,7 +311,7 @@ public class SqlBuilder {
     }
 
     public static SelectNeed getSelectManyNeed(BasePo o, String[] includeFields, Field orderByField,
-            boolean asc) throws Exception {
+            boolean asc, int limit, int index) throws Exception {
         Class<? extends BasePo> clazz = o.getClass();
         List<Field> inc = Lists.newLinkedList();
         for (int i = 0; i < includeFields.length; i++) {
@@ -304,7 +322,7 @@ public class SqlBuilder {
             return null;
         }
         return new SelectNeed(
-                getSelectSql(clazz, o.getConditionFieldList(), inc, orderByField, asc),
+                getSelectSql(clazz, o.getConditionFieldList(), inc, orderByField, asc, limit, index),
                 getSelectArgs(o));
     }
 

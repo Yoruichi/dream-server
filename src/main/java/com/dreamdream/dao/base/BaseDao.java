@@ -1,4 +1,4 @@
-package com.dreamdream.dao;
+package com.dreamdream.dao.base;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -12,8 +12,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
+import com.dreamdream.dao.base.SqlBuilder.*;
 import com.google.common.collect.Lists;
-import com.dreamdream.dao.SqlBuilder.*;
 
 public abstract class BaseDao<T extends BasePo> {
 
@@ -81,7 +81,23 @@ public abstract class BaseDao<T extends BasePo> {
             throw e;
         }
     }
-
+    public List<T> select(final T o, String orderBy, boolean asc, int limit, int index) throws Exception {
+        List<T> list = Lists.newArrayList();
+        try {
+            SelectNeed sed = SqlBuilder.getSelectManyNeed(o, orderBy, asc, limit, index);
+            if (sed == null) {
+                logger.warn("Warn no valid value when insert or update po class{}", o);
+                return list;
+            }
+            list = getTemplate().query(sed.sql, sed.args, rseList);
+            logger.info("running:{} with args{} based on class{} got result{}", sed.sql, sed.args,
+                    o, list);
+        } catch (Exception e) {
+            logger.error("Error when select many of class{}.Caused by {}", o, e);
+            throw e;
+        }
+        return list;
+    }
     public List<T> select(final T o, String orderBy, boolean asc) throws Exception {
         List<T> list = Lists.newArrayList();
         try {

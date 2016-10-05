@@ -1,6 +1,6 @@
-package com.dreamdream.dao;
+package com.dreamdream.dao.base;
 
-import com.dreamdream.dao.BasePo.CONDITION;
+import com.dreamdream.dao.base.BasePo.CONDITION;
 
 public class ConditionField {
     private String fieldName;

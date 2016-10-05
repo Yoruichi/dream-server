@@ -18,12 +18,12 @@ public class SwaggerConfig {
     @Bean
     public Docket createApi() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.redteamobile.dirac.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.dreamdream.controller"))
                 .build();
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Dirac-定时任务系统 APIs").version(ConstString.VERSION).build();
+        return new ApiInfoBuilder().title("DreamDream APIs").version(ConstString.VERSION).build();
     }
 
 }
