@@ -3,6 +3,8 @@ package com.dreamdream.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.session.ExpiringSession;
+import org.springframework.session.SessionRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +27,15 @@ public class DreamerOpController extends BaseController {
 
     @Autowired
     private DreamerDao dreamerDao;
+    @Autowired
+    private SessionRepository<? extends ExpiringSession> repository;
+
+    @ApiOperation(value = "用户登出", notes = "用户登出", response = RespStruct.class)
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public RespStruct logout(@ApiIgnore HttpSession session) throws Exception {
+        repository.delete(session.getId());
+        return succ();
+    }
 
     @ApiOperation(value = "查看用户信息", notes = "查看用户信息", response = Dreamer.class)
     @RequestMapping(value = "/check/info", method = RequestMethod.POST)
@@ -50,13 +61,13 @@ public class DreamerOpController extends BaseController {
                     defaultValue = "") String avatarUrl,
             @ApiParam(value = "性别") @RequestParam(required = false,
                     defaultValue = "") String gender,
-            @ApiParam(value = "职业") @RequestParam(required = false,
-            defaultValue = "") String job,
+            @ApiParam(value = "职业") @RequestParam(required = false, defaultValue = "") String job,
             @ApiIgnore HttpSession session) throws Exception {
         Dreamer d = new Dreamer();
         Integer dreamerId = getDreamerIdFromSession(session);
         d.setId(dreamerId);
-        if(dreamerDao.select(d) == null) return failed(ConstString.NOT_VALID_USER_ID, ConstString.NOT_VALID_USER_ID_CODE);
+        if (dreamerDao.select(d) == null)
+            return failed(ConstString.NOT_VALID_USER_ID, ConstString.NOT_VALID_USER_ID_CODE);
         if (!Strings.isNullOrEmpty(email))
             d.setEmail(email);
         if (!Strings.isNullOrEmpty(password))

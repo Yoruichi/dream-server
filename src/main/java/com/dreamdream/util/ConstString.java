@@ -30,11 +30,14 @@ public class ConstString {
     public static final Integer NOT_VALID_USER_ID_CODE = new Integer(2014);
     public static final String NOT_VALID_GREATER = "错误的点赞ID";
     public static final Integer NOT_VALID_GREATER_CODE = new Integer(2014);
-    
+
+    public static final String COOKIE_SESSION_NAME = "JSESSIONID=";
     public static final String VERSION = "1.0";
     public static final String SESSION_USER_INFO = "sessionuserinfo";
     public static final int REPLY_HEADER_COUNT = 3;
-    public static final String OTHER_DREAM_TYPE="特别";
-    public static final String HEADER_FOR_DREAM_CONTENT="${dreamTime} 我${dreamLocationContent}做了一个很${dreamTypeContent}的梦。我梦见";
+    public static final String OTHER_DREAM_TYPE = "特别";
+    public static final String HEADER_FOR_DREAM_CONTENT =
+            "${dreamTime} 我${dreamLocationContent}做了一个很${dreamTypeContent}的梦。我梦见";
+    public static final long LOGIN_TIMEOUT = 86400;
 
 }

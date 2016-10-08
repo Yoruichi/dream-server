@@ -1,6 +1,9 @@
 package com.dreamdream.session.model;
 
-public class SessionInfo {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class SessionInfo implements Serializable {
     private String ip;
     private String dreamerId;
     private String dreamerName;
