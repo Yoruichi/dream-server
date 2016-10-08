@@ -1,5 +1,6 @@
 package com.dreamdream.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class GreaterController extends BaseController {
     @RequestMapping(value="/like", method = RequestMethod.POST)
     public RespStruct like(
             @ApiParam(value = "信息ID", required = true) @RequestParam int messageId,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         Integer dreamerId = getDreamerIdFromSession(session);
         DreamGreater dg = new DreamGreater();
         dg.setDreamerId(dreamerId);
@@ -45,7 +46,7 @@ public class GreaterController extends BaseController {
     @RequestMapping(value="/unlike", method = RequestMethod.POST)
     public RespStruct unlike(
             @ApiParam(value = "信息ID", required = true) @RequestParam int messageId,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         Integer dreamerId = getDreamerIdFromSession(session);
         DreamGreater dg = new DreamGreater();
         dg.setDreamerId(dreamerId);

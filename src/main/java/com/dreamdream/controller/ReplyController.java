@@ -1,5 +1,6 @@
 package com.dreamdream.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,7 @@ public class ReplyController extends BaseController {
             @ApiParam(value = "需要获取的条数", required = true,
             defaultValue = "10") @RequestParam() int limit,
             @ApiParam(value = "从第几条开始获取", required = true,
-            defaultValue = "0") @RequestParam() int index,
-            @ApiIgnore HttpSession session) throws Exception {
+            defaultValue = "0") @RequestParam() int index) throws Exception {
         DreamReplyView drv = new DreamReplyView();
         drv.setReplyStats(true);
         drv.setDreamerStats(true);
@@ -54,7 +54,7 @@ public class ReplyController extends BaseController {
     public RespStruct forMessage(
             @ApiParam(value = "信息ID", required = true) @RequestParam int messageId,
             @ApiParam(value = "回复内容", required = true) @RequestParam String content,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         Integer dreamerId = getDreamerIdFromSession(session);
         DreamReply dr = new DreamReply();
         dr.setCreateTime(DateUtils.getCurrentDateTime().toDate());
@@ -72,7 +72,7 @@ public class ReplyController extends BaseController {
             @ApiParam(value = "信息ID", required = true) @RequestParam int messageId,
             @ApiParam(value = "回复给用户的ID", required = true) @RequestParam int replyDreamerId,
             @ApiParam(value = "回复内容", required = true) @RequestParam String content,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         Integer dreamerId = getDreamerIdFromSession(session);
         DreamReply dr = new DreamReply();
         dr.setCreateTime(DateUtils.getCurrentDateTime().toDate());
@@ -89,7 +89,7 @@ public class ReplyController extends BaseController {
     @RequestMapping(value="/undo", method = RequestMethod.POST)
     public RespStruct undo(
             @ApiParam(value = "回复的ID", required = true) @RequestParam int id,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         Integer dreamerId = getDreamerIdFromSession(session);
         DreamReply dr = new DreamReply();
         dr.setDreamerId(dreamerId);

@@ -46,16 +46,4 @@ public class MD5Utils {
         return sum;
     }
 
-    public static void main(String[] args) {
-        System.out.println(getMD5Sum("SAA00000001") % 10);
-        System.out.println(getMD5Sum("SAA00000002") % 10);
-        System.out.println(getMD5Sum("SAA00000003") % 10);
-        System.out.println(getMD5Sum("SAA00000004") % 10);
-        System.out.println(getMD5Sum("SAA00000005") % 10);
-        System.out.println(getMD5Sum("SAA00000006") % 10);
-        System.out.println(getMD5Sum("SAA00000007") % 10);
-        System.out.println(getMD5Sum("SAA00000008") % 10);
-        System.out.println(getMD5Sum("SAA00000009") % 10);
-        System.out.println(getMD5Sum("SAA00000010") % 10);
-    }
 }

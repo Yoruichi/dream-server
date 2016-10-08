@@ -1,7 +1,10 @@
 package com.dreamdream.controller;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.dreamdream.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.session.ExpiringSession;
 import org.springframework.session.SessionRepository;
@@ -27,13 +30,11 @@ public class DreamerOpController extends BaseController {
 
     @Autowired
     private DreamerDao dreamerDao;
-    @Autowired
-    private SessionRepository<? extends ExpiringSession> repository;
 
     @ApiOperation(value = "用户登出", notes = "用户登出", response = RespStruct.class)
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public RespStruct logout(@ApiIgnore HttpSession session) throws Exception {
-        repository.delete(session.getId());
+    public RespStruct logout(@ApiIgnore HttpServletRequest req) throws Exception {
+        repository.delete(BeanUtil.getSessionIdFromHeader(req));
         return succ();
     }
 
@@ -62,7 +63,7 @@ public class DreamerOpController extends BaseController {
             @ApiParam(value = "性别") @RequestParam(required = false,
                     defaultValue = "") String gender,
             @ApiParam(value = "职业") @RequestParam(required = false, defaultValue = "") String job,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         Dreamer d = new Dreamer();
         Integer dreamerId = getDreamerIdFromSession(session);
         d.setId(dreamerId);
@@ -90,7 +91,7 @@ public class DreamerOpController extends BaseController {
     @RequestMapping(value = "/check/password", method = RequestMethod.POST)
     public RespStruct checkPassword(
             @ApiParam(value = "登录的密码", required = true) @RequestParam String password,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         Dreamer d = new Dreamer();
         d.setId(getDreamerIdFromSession(session));
         d.setPassword(MD5Utils.getPassword(password));
