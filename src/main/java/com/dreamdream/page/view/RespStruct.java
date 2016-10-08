@@ -1,4 +1,4 @@
-package com.dreamdream.model.view;
+package com.dreamdream.page.view;
 
 public class RespStruct {
 

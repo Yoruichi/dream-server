@@ -81,10 +81,10 @@ public abstract class BaseDao<T extends BasePo> {
             throw e;
         }
     }
-    public List<T> select(final T o, String orderBy, boolean asc, int limit, int index) throws Exception {
+    public List<T> selectMany(final T o, boolean asc, int limit, int index, String ... orderBy) throws Exception {
         List<T> list = Lists.newArrayList();
         try {
-            SelectNeed sed = SqlBuilder.getSelectManyNeed(o, orderBy, asc, limit, index);
+            SelectNeed sed = SqlBuilder.getSelectManyNeed(o, asc, limit, index, orderBy);
             if (sed == null) {
                 logger.warn("Warn no valid value when insert or update po class{}", o);
                 return list;
@@ -98,10 +98,10 @@ public abstract class BaseDao<T extends BasePo> {
         }
         return list;
     }
-    public List<T> select(final T o, String orderBy, boolean asc) throws Exception {
+    public List<T> selectMany(final T o) throws Exception {
         List<T> list = Lists.newArrayList();
         try {
-            SelectNeed sed = SqlBuilder.getSelectManyNeed(o, orderBy, asc);
+            SelectNeed sed = SqlBuilder.getSelectManyNeed(o);
             if (sed == null) {
                 logger.warn("Warn no valid value when insert or update po class{}", o);
                 return list;

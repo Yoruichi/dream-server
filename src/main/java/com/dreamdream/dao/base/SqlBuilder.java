@@ -191,7 +191,7 @@ public class SqlBuilder {
     }
 
     public static String getSelectSql(Class<? extends BasePo> c,
-            List<ConditionField> conditionFields, List<Field> includeFields, Field orderField,
+            List<ConditionField> conditionFields, List<Field> includeFields, List<Field> orderFields,
             boolean asc, int limit, int index) {
         StringBuilder sb = new StringBuilder();
         sb.append("select ");
@@ -200,7 +200,7 @@ public class SqlBuilder {
         }
         sb.replace(sb.length() - 1, sb.length(), " from `").append(getDbName(c.getSimpleName()))
                 .append("`");
-        if (conditionFields.size() > 0) {
+        if (conditionFields != null && conditionFields.size() > 0) {
             sb.append(" where");
             for (ConditionField cf : conditionFields) {
                 sb.append(" `").append(getDbName(cf.getFieldName())).append("` ");
@@ -223,9 +223,14 @@ public class SqlBuilder {
             }
             sb.replace(sb.length() - 3, sb.length(), "");
         }
-        if (orderField != null) {
-            sb.append(" order by `").append(getDbName(orderField.getName()))
-                    .append(asc ? "` asc" : " desc");
+        
+        if (orderFields != null && orderFields.size() > 0) {
+            sb.append(" order by `");
+            for (Field orderField : orderFields) {
+                
+                sb.append(getDbName(orderField.getName())).append("`,");
+            }
+            sb.replace(sb.length() - 1, sb.length(), asc ? "` asc" : " desc");
         }
         if (limit > 0) {
             sb.append(" limit ").append(limit);
@@ -268,11 +273,7 @@ public class SqlBuilder {
                 obs.toArray());
     }
 
-    public static SelectNeed getSelectManyNeed(BasePo o) throws Exception {
-        return getSelectManyNeed(o, "id", true);
-    }
-
-    public static SelectNeed getSelectManyNeed(BasePo o, String orderField, boolean asc, int limit, int index)
+    public static SelectNeed getSelectManyNeed(BasePo o, boolean asc, int limit, int index, String ... orderFields)
             throws Exception {
         Class<? extends BasePo> clazz = o.getClass();
         Field[] fs = clazz.getDeclaredFields();
@@ -280,20 +281,27 @@ public class SqlBuilder {
         for (int i = 0; i < fs.length; i++) {
             includeFields[i] = fs[i].getName();
         }
-        Field orderByField = clazz.getDeclaredField(orderField);
-        return getSelectManyNeed(o, includeFields, orderByField, asc, limit, index);
+        List<Field> orderByFieldList=Lists.newLinkedList();
+        for (String orderField : orderFields) {
+            Field orderByField = clazz.getDeclaredField(orderField);
+            orderByFieldList.add(orderByField);
+        }
+        return getSelectManyNeed(o, includeFields, orderByFieldList, asc, limit, index);
     }
     
-    public static SelectNeed getSelectManyNeed(BasePo o, String orderField, boolean asc)
-            throws Exception {
+    public static SelectNeed getSelectManyNeed(BasePo o) throws Exception {
         Class<? extends BasePo> clazz = o.getClass();
         Field[] fs = clazz.getDeclaredFields();
         String[] includeFields = new String[fs.length];
         for (int i = 0; i < fs.length; i++) {
             includeFields[i] = fs[i].getName();
         }
-        Field orderByField = clazz.getDeclaredField(orderField);
-        return getSelectManyNeed(o, includeFields, orderByField, asc, o.getLimit(), o.getIndex());
+        List<Field> orderByFieldList=Lists.newLinkedList();
+        for (String orderField : o.getOrderByField()) {
+            Field orderByField = clazz.getDeclaredField(orderField);
+            orderByFieldList.add(orderByField);
+        }
+        return getSelectManyNeed(o, includeFields, orderByFieldList, o.isAsc(), o.getLimit(), o.getIndex());
     }
 
     public static void setBasePoReady(BasePo o) throws Exception {
@@ -310,7 +318,7 @@ public class SqlBuilder {
         }
     }
 
-    public static SelectNeed getSelectManyNeed(BasePo o, String[] includeFields, Field orderByField,
+    public static SelectNeed getSelectManyNeed(BasePo o, String[] includeFields, List<Field> orderByFields,
             boolean asc, int limit, int index) throws Exception {
         Class<? extends BasePo> clazz = o.getClass();
         List<Field> inc = Lists.newLinkedList();
@@ -322,7 +330,7 @@ public class SqlBuilder {
             return null;
         }
         return new SelectNeed(
-                getSelectSql(clazz, o.getConditionFieldList(), inc, orderByField, asc, limit, index),
+                getSelectSql(clazz, o.getConditionFieldList(), inc, orderByFields, asc, limit, index),
                 getSelectArgs(o));
     }
 

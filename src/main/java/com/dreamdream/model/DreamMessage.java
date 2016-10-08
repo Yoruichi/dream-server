@@ -15,6 +15,10 @@ public class DreamMessage extends BasePo implements Serializable {
     private Date createTime;
     private Date lastUpdateTime;
     private Boolean stats;
+    private String dreamType;
+    private String dreamTypeContent;
+    private String dreamLocationContent;
+    private String dreamLocation;
 
     public enum DreamMessageType {
         PUBLIC, PRIVATE
@@ -24,7 +28,9 @@ public class DreamMessage extends BasePo implements Serializable {
     public String toString() {
         return "DreamMessage [id=" + id + ", dreamerId=" + dreamerId + ", type=" + type
                 + ", content=" + content + ", imageUrl=" + imageUrl + ", createTime=" + createTime
-                + ", lastUpdateTime=" + lastUpdateTime + ", stats=" + stats + "]";
+                + ", lastUpdateTime=" + lastUpdateTime + ", stats=" + stats + ", dreamType="
+                + dreamType + ", dreamTypeContent=" + dreamTypeContent + ", dreamLocationContent="
+                + dreamLocationContent + ", dreamLocation=" + dreamLocation + "]";
     }
 
     public Integer getId() {
@@ -89,6 +95,38 @@ public class DreamMessage extends BasePo implements Serializable {
 
     public void setStats(Boolean stats) {
         this.stats = stats;
+    }
+
+    public String getDreamType() {
+        return dreamType;
+    }
+
+    public void setDreamType(String dreamType) {
+        this.dreamType = dreamType;
+    }
+
+    public String getDreamTypeContent() {
+        return dreamTypeContent;
+    }
+
+    public void setDreamTypeContent(String dreamTypeContent) {
+        this.dreamTypeContent = dreamTypeContent;
+    }
+
+    public String getDreamLocationContent() {
+        return dreamLocationContent;
+    }
+
+    public void setDreamLocationContent(String dreamLocationContent) {
+        this.dreamLocationContent = dreamLocationContent;
+    }
+
+    public String getDreamLocation() {
+        return dreamLocation;
+    }
+
+    public void setDreamLocation(String dreamLocation) {
+        this.dreamLocation = dreamLocation;
     }
 
 }

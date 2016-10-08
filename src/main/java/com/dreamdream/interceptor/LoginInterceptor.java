@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.dreamdream.model.view.SessionInfo;
+import com.dreamdream.session.model.SessionInfo;
 import com.dreamdream.util.ConstString;
 import com.google.common.base.Strings;
 
@@ -27,7 +27,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler)
             throws Exception {
         HttpSession session = req.getSession(false);
+        System.out.println(session);
         if(session == null) return false;
+        System.out.println(session.getId());
         Object o = session.getAttribute(ConstString.SESSION_USER_INFO);
         if (o == null) return false;
         SessionInfo info = (SessionInfo) o;

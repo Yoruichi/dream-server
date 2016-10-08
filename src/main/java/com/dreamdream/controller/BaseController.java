@@ -2,9 +2,10 @@ package com.dreamdream.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.dreamdream.model.view.RespStruct;
-import com.dreamdream.model.view.SessionInfo;
+import com.dreamdream.page.view.RespStruct;
+import com.dreamdream.session.model.SessionInfo;
 import com.dreamdream.util.ConstString;
+import com.dreamdream.util.IpUtil;
 
 public class BaseController {
 
@@ -12,7 +13,14 @@ public class BaseController {
         Object o = session.getAttribute(ConstString.SESSION_USER_INFO);
         if(o == null) throw new Exception("Error when got dreamer id from session");
         SessionInfo info = (SessionInfo) o;
-        return Integer.getInteger(info.getDreamerId());
+        return Integer.valueOf(info.getDreamerId());
+    }
+    
+    public String getIpLocationFromSession(HttpSession session) throws Exception {
+        Object o = session.getAttribute(ConstString.SESSION_USER_INFO);
+        if(o == null) throw new Exception("Error when got dreamer id from session");
+        SessionInfo info = (SessionInfo) o;
+        return IpUtil.getAddressByIp(info.getIp());
     }
     
     public RespStruct succ() {

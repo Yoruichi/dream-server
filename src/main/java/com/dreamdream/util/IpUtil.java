@@ -27,6 +27,11 @@ public class IpUtil {
         String ip = getIpAddr(request);
         return getIpInfo(ip);
     }
+    
+    /** 获取用户IP对应的地理位置信息 */
+    public static String getAddressByIp(String ip) {
+        return getIpInfo(ip);
+    }
 
     /**
      * 获取登录用户的IP地址

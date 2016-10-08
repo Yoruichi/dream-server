@@ -1,4 +1,4 @@
-package com.dreamdream.model.view;
+package com.dreamdream.session.model;
 
 public class SessionInfo {
     private String ip;

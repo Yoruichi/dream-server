@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dreamdream.model.view.RespStruct;
+import com.dreamdream.page.view.RespStruct;
 
 @ControllerAdvice
 public class GloableExceptionHandler {

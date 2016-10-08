@@ -26,7 +26,7 @@ public class DateUtils {
      */
     public static DateTime getCurrentDateTime() {
         DateTime dt = new DateTime(new Date());
-        return dt.toDateTime(DateTimeZone.UTC);
+        return dt;
     }
 
     public static DateTime getDateTime(Date date) {

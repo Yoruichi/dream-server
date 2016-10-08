@@ -4,22 +4,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dreamdream.dao.DreamerDao;
 import com.dreamdream.dao.WxDreamerDao;
 import com.dreamdream.model.Dreamer;
 import com.dreamdream.model.WxDreamer;
-import com.dreamdream.model.view.RespStruct;
-import com.dreamdream.model.view.SessionInfo;
+import com.dreamdream.page.view.RespStruct;
+import com.dreamdream.session.model.SessionInfo;
 import com.dreamdream.util.ConstString;
 import com.dreamdream.util.DateUtils;
 import com.dreamdream.util.IpUtil;
 import com.dreamdream.util.MD5Utils;
 import com.dreamdream.util.NumberUtils;
+import com.dreamdream.util.Validator;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -43,6 +46,7 @@ public class DreamerController extends BaseController {
             @ApiIgnore HttpServletRequest req
             ) throws Exception {
         Dreamer d = new Dreamer();
+        if(!Validator.isMobile(phone)) return failed(ConstString.NOT_VALID_PHONE, ConstString.NOT_VALID_PHONE_CODE);
         d.setPhone(phone);
         if (dreamerDao.select(d) != null) return failed(ConstString.PHONE_EXISTS, ConstString.PHONE_EXISTS_CODE);
         d.setPassword(MD5Utils.getPassword(password));
@@ -54,7 +58,7 @@ public class DreamerController extends BaseController {
         d.setPhone(phone);
         d = dreamerDao.select(d);
         setSessionInfoInSession(d, session, req);
-        return succ(d);
+        return succ(d, session.getId());
     }
 
     @ApiOperation(value = "通过微信进行登录", notes = "登录成功返回用户数据", response=Dreamer.class)
@@ -76,7 +80,7 @@ public class DreamerController extends BaseController {
             if (d == null) throw new Exception("Error! when login with WeChat but got null dreamer by id");
             if (!d.getStats()) return failed(ConstString.NOT_VALID_USER_STATS, ConstString.NOT_VALID_USER_STATS_CODE);
             setSessionInfoInSession(d, session, req);
-            return succ(d);
+            return succ(d, session.getId());
         } else {
             //TODO create dreamer to bind wx openId
         }
@@ -90,6 +94,7 @@ public class DreamerController extends BaseController {
         info.setIp(IpUtil.getIpAddr(req));
         session.setAttribute(ConstString.SESSION_USER_INFO, info);
         session.setMaxInactiveInterval(3600);
+        //返回到客户端的加密之后的密码固定为hehe
         d.setPassword("hehe");
     }
 
@@ -108,6 +113,6 @@ public class DreamerController extends BaseController {
         if(!MD5Utils.getPassword(password).equals(d.getPassword())) return failed(ConstString.NOT_VALID_PASSWD, ConstString.NOT_VALID_PASSWD_CODE);
         if(!d.getStats()) return failed(ConstString.NOT_VALID_USER_STATS, ConstString.NOT_VALID_USER_STATS_CODE);
         this.setSessionInfoInSession(d, session, req);
-        return succ(d);
+        return succ(d, session.getId());
     }
 }

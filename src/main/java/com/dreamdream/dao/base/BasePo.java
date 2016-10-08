@@ -1,6 +1,7 @@
 package com.dreamdream.dao.base;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -8,8 +9,19 @@ import com.google.common.collect.Lists;
 public class BasePo {
 
     private List<ConditionField> conditionFieldList=Lists.newLinkedList();
+    private List<String> groupByField=Lists.newLinkedList();
+    private List<String> orderByField=Lists.newLinkedList();
+    private boolean asc;
     private int limit;
     private int index;
+    
+    public void groupBy(String ... fields) {
+        getGroupByField().addAll(Arrays.asList(fields));
+    }
+    
+    public void orderBy(String ... fields) {
+        getOrderByField().addAll(Arrays.asList(fields));
+    }
     
     public void gt(String field, Object o) throws Exception {
         Field f = this.getClass().getDeclaredField(field);
@@ -120,6 +132,30 @@ public class BasePo {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public boolean isAsc() {
+        return asc;
+    }
+
+    public void setAsc(boolean asc) {
+        this.asc = asc;
+    }
+
+    public List<String> getOrderByField() {
+        return orderByField;
+    }
+
+    public void setOrderByField(List<String> orderByField) {
+        this.orderByField = orderByField;
+    }
+
+    public List<String> getGroupByField() {
+        return groupByField;
+    }
+
+    public void setGroupByField(List<String> groupByField) {
+        this.groupByField = groupByField;
     }
 
     public enum CONDITION {

@@ -18,13 +18,14 @@ public class Dreamer extends BasePo implements Serializable {
     private Date createTime;
     private Date lastUpdateTime;
     private Boolean stats;
+    private String job;
 
     @Override
     public String toString() {
         return "Dreamer [id=" + id + ", username=" + username + ", password=" + password
                 + ", phone=" + phone + ", email=" + email + ", nickName=" + nickName
                 + ", avatarUrl=" + avatarUrl + ", gender=" + gender + ", createTime=" + createTime
-                + ", lastUpdateTime=" + lastUpdateTime + ", stats=" + stats + "]";
+                + ", lastUpdateTime=" + lastUpdateTime + ", stats=" + stats + ", job=" + job +"]";
     }
 
     public Integer getId() {
@@ -113,5 +114,13 @@ public class Dreamer extends BasePo implements Serializable {
 
     public void setStats(Boolean stats) {
         this.stats = stats;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
     }
 }

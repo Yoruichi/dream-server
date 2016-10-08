@@ -6,7 +6,7 @@ import java.util.Date;
 import com.dreamdream.dao.base.BasePo;
 
 @SuppressWarnings("serial")
-public class MessageReply extends BasePo implements Serializable {
+public class DreamReply extends BasePo implements Serializable {
     private Integer id;
     private Integer dreamerId;
     private Integer messageId;
