@@ -1,5 +1,6 @@
 package com.dreamdream.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class MessageViewController extends BaseController {
                     defaultValue = "10") @RequestParam() int limit,
             @ApiParam(value = "从第几条开始获取", required = true,
                     defaultValue = "0") @RequestParam() int index,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         if (DreamMessage.DreamMessageType.valueOf(type) == null)
             return failed(ConstString.NOT_VALID_MESSAGE_TYPE,
                     ConstString.NOT_VALID_MESSAGE_CONTENT_CODE);
@@ -52,7 +53,7 @@ public class MessageViewController extends BaseController {
             defaultValue = "10") @RequestParam() int limit,
             @ApiParam(value = "从第几条开始获取", required = true,
             defaultValue = "0") @RequestParam() int index,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         Integer dreamerId = getDreamerIdFromSession(session);
         return succ(dpvServ.getSomeonesLikeDreamPageView(dreamerId, limit, index));
     }
@@ -64,7 +65,7 @@ public class MessageViewController extends BaseController {
             @ApiParam(value = "从第几条开始获取", required = true,
                     defaultValue = "0") @RequestParam() int index,
             @ApiParam(value = "用户ID", required = true) @RequestParam() int dreamerId,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         return succ(dpvServ.getSomeonesDreamPageView(dreamerId, limit, index));
     }
     
@@ -75,7 +76,7 @@ public class MessageViewController extends BaseController {
                     defaultValue = "10") @RequestParam() int limit,
             @ApiParam(value = "从第几条开始获取", required = true,
                     defaultValue = "0") @RequestParam() int index,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         return succ(dpvServ.getDreamPageView(0, limit, index));
     }
 }

@@ -1,5 +1,6 @@
 package com.dreamdream.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class DreamMessageController extends BaseController {
     public RespStruct changeMessageStats(
             @ApiParam(value = "信息ID", required = true) @RequestParam int id,
             @ApiParam(value = "信息状态", required = true) @RequestParam boolean stats,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         Integer dreamerId = getDreamerIdFromSession(session);
         DreamMessage dm = new DreamMessage();
         dm.setDreamerId(dreamerId);
@@ -49,7 +50,7 @@ public class DreamMessageController extends BaseController {
     public RespStruct changeMessageType(
             @ApiParam(value = "信息ID", required = true) @RequestParam int id,
             @ApiParam(value = "信息类型(PUBLIC/PRIVATE)", required = true) @RequestParam String type,
-            @ApiIgnore HttpSession session) throws Exception {
+            @ApiIgnore HttpServletRequest session) throws Exception {
         if (DreamMessage.DreamMessageType.valueOf(type) == null)
             return failed(ConstString.NOT_VALID_MESSAGE_TYPE,
                     ConstString.NOT_VALID_MESSAGE_CONTENT_CODE);
@@ -69,16 +70,16 @@ public class DreamMessageController extends BaseController {
     @ApiOperation(value = "用户发布信息", notes = "用户发布信息", response = RespStruct.class)
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     public RespStruct sendMessage(
-            @ApiParam(value = "信息内容类型") @RequestParam(required = false) String dreamTypeContent,
-            @ApiParam(value = "信息内容时间") @RequestParam(required = false) String dreamTime,
-            @ApiParam(value = "信息位置内容") @RequestParam(required = false) String dreamLocationContent,
-            @ApiParam(value = "信息内容", required = true) @RequestParam String content,
-            @ApiParam(value = "信息类型(PUBLIC/PRIVATE)", required = true,
+			@ApiParam(value = "信息内容类型") @RequestParam(required = false) String dreamTypeContent,
+			@ApiParam(value = "信息内容时间") @RequestParam(required = false) String dreamTime,
+			@ApiParam(value = "信息位置内容") @RequestParam(required = false) String dreamLocationContent,
+			@ApiParam(value = "信息内容", required = true) @RequestParam String content,
+			@ApiParam(value = "信息类型(PUBLIC/PRIVATE)", required = true,
                     defaultValue = "PUBLIC") @RequestParam String type,
-            @ApiParam(value = "配图") @RequestParam(required = false) String imageUrl, @ApiIgnore HttpSession session)
+			@ApiParam(value = "配图") @RequestParam(required = false) String imageUrl, @ApiIgnore HttpServletRequest req)
             throws Exception {
         String dreamType = dreamTypeContent;
-        String dreamLocation = getIpLocationFromSession(session);
+        String dreamLocation = getIpLocationFromSession(req);
         if (Strings.isNullOrEmpty(dreamTime))
             dreamTime = DateUtils.getCurrentDateTime().toString("yyyy年MM月dd日 HH时");
         if (Strings.isNullOrEmpty(dreamType))
@@ -97,7 +98,7 @@ public class DreamMessageController extends BaseController {
         else
             header = header.replaceAll("\\$\\{dreamLocationContent\\}", "");
         
-        Integer dreamerId = getDreamerIdFromSession(session);
+        Integer dreamerId = getDreamerIdFromSession(req);
         DreamMessage dm = new DreamMessage();
         dm.setDreamerId(dreamerId);
         dm.setDreamType(dreamType);
