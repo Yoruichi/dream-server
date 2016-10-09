@@ -84,7 +84,7 @@ public class DreamMessageController extends BaseController {
             dreamTime = DateUtils.getCurrentDateTime().toString("yyyy年MM月dd日 HH时");
         if (Strings.isNullOrEmpty(dreamType))
             dreamType = ConstString.OTHER_DREAM_TYPE;
-        if (Strings.isNullOrEmpty(content))
+        if (Strings.isNullOrEmpty(content) || content.length() > 255)
             return failed(ConstString.NOT_VALID_MESSAGE_CONTENT,
                     ConstString.NOT_VALID_MESSAGE_CONTENT_CODE);
         if (DreamMessage.DreamMessageType.valueOf(type) == null)
