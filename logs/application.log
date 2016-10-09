@@ -1,1 +1,11 @@
 2016-10-09 10:21:56 - [WARN] - com.zaxxer.hikari.pool.HikariPool - 11h34m4s988ms - Thread starvation or clock leap detected (housekeeper delta=HikariPool-1).
+2016-10-09 10:28:01 - [INFO] - org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext - Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@1e800aaa: startup date [Sat Oct 08 18:02:12 CST 2016]; root of context hierarchy
+2016-10-09 10:28:01 - [INFO] - org.springframework.context.support.DefaultLifecycleProcessor - Stopping beans in phase 2147483647
+2016-10-09 10:28:01 - [INFO] - org.springframework.context.support.DefaultLifecycleProcessor - Stopping beans in phase 0
+2016-10-09 10:28:01 - [INFO] - org.springframework.boot.actuate.endpoint.jmx.EndpointMBeanExporter - Unregistering JMX-exposed beans on shutdown
+2016-10-09 10:28:01 - [INFO] - org.springframework.boot.actuate.endpoint.jmx.EndpointMBeanExporter - Unregistering JMX-exposed beans
+2016-10-09 10:28:01 - [INFO] - org.springframework.jmx.export.annotation.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown
+2016-10-09 10:28:01 - [INFO] - org.springframework.jmx.export.annotation.AnnotationMBeanExporter - Unregistering JMX-exposed beans
+2016-10-09 10:28:01 - [INFO] - org.eclipse.jetty.server.AbstractConnector - Stopped ServerConnector@57b49b83{HTTP/1.1,[http/1.1]}{0.0.0.0:8079}
+2016-10-09 10:28:01 - [INFO] - application - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2016-10-09 10:28:01 - [INFO] - org.eclipse.jetty.server.handler.ContextHandler - Stopped o.s.b.c.e.j.JettyEmbeddedWebAppContext@5618fc1f{/,file:///private/var/folders/44/jxrd7gfd2y3c0ryxr5nwmr040000gn/T/jetty-docbase.4983488795443102522.8079/,UNAVAILABLE}
