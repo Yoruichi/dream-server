@@ -1,10 +1,7 @@
 package com.dreamdream.interceptor;
 
-import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dreamdream.session.model.SessionInfo;
 import com.dreamdream.util.BeanUtil;
-import com.dreamdream.util.ConstString;
 import com.google.common.base.Strings;
 
 @Component

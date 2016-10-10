@@ -38,6 +38,12 @@ public class DreamerOpController extends BaseController {
         return succ();
     }
 
+    @ApiOperation(value = "检查登录状态", notes = "检查登录状态", response = Dreamer.class)
+    @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
+    public RespStruct checkLogin(){
+        return succ();
+    }
+    
     @ApiOperation(value = "查看用户信息", notes = "查看用户信息", response = Dreamer.class)
     @RequestMapping(value = "/check/info", method = RequestMethod.POST)
     public RespStruct checkInfo(
