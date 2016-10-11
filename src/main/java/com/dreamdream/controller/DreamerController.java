@@ -86,8 +86,7 @@ public class DreamerController extends BaseController {
 
     private String setSessionInfoInSession(Dreamer d, HttpSession session, HttpServletRequest req) {
         SessionInfo info = new SessionInfo();
-        info.setDreamerId(d.getId().intValue() + "");
-        info.setDreamerName(d.getUsername());
+        info.setDreamer(d);
         info.setIp(IpUtil.getIpAddr(req));
         session.setAttribute(ConstString.SESSION_USER_INFO, info);
         session.setMaxInactiveInterval(3600);

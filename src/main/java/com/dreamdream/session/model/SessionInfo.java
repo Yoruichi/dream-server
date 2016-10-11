@@ -2,11 +2,20 @@ package com.dreamdream.session.model;
 
 import java.io.Serializable;
 
+import com.dreamdream.model.Dreamer;
+
 @SuppressWarnings("serial")
 public class SessionInfo implements Serializable {
+    private Dreamer dreamer;
     private String ip;
-    private String dreamerId;
-    private String dreamerName;
+
+    public Dreamer getDreamer() {
+        return dreamer;
+    }
+
+    public void setDreamer(Dreamer dreamer) {
+        this.dreamer = dreamer;
+    }
 
     public String getIp() {
         return ip;
@@ -16,26 +25,9 @@ public class SessionInfo implements Serializable {
         this.ip = ip;
     }
 
-    public String getDreamerId() {
-        return dreamerId;
-    }
-
-    public void setDreamerId(String dreamerId) {
-        this.dreamerId = dreamerId;
-    }
-
-    public String getDreamerName() {
-        return dreamerName;
-    }
-
-    public void setDreamerName(String dreamerName) {
-        this.dreamerName = dreamerName;
-    }
-
     @Override
     public String toString() {
-        return "SessionInfo [ip=" + ip + ", dreamerId=" + dreamerId + ", dreamerName=" + dreamerName
-                + "]";
+        return "SessionInfo [dreamer=" + dreamer + ", ip=" + ip + "]";
     }
 
 }

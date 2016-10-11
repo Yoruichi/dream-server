@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dreamdream.session.model.SessionInfo;
 import com.dreamdream.util.BeanUtil;
-import com.google.common.base.Strings;
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
@@ -39,7 +38,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         SessionInfo eInfo = BeanUtil.getSessionInfoFromSessionRepository(repository, req);
         if(eInfo == null) eInfo = BeanUtil.getSessionInfoFromRequest(req);
         
-        if (eInfo == null || Strings.isNullOrEmpty(eInfo.getDreamerId())) {
+        if (eInfo == null || (eInfo.getDreamer() == null || eInfo.getDreamer().getId() == null)) {
             logger.debug("Got no valid session info in session.");
             return false;
         }

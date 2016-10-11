@@ -1,13 +1,9 @@
 package com.dreamdream.controller;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.dreamdream.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.session.ExpiringSession;
-import org.springframework.session.SessionRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dreamdream.dao.DreamerDao;
 import com.dreamdream.model.Dreamer;
 import com.dreamdream.page.view.RespStruct;
+import com.dreamdream.util.BeanUtil;
 import com.dreamdream.util.ConstString;
 import com.dreamdream.util.MD5Utils;
 import com.google.common.base.Strings;
@@ -41,7 +38,7 @@ public class DreamerOpController extends BaseController {
     @ApiOperation(value = "检查登录状态", notes = "检查登录状态", response = Dreamer.class)
     @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
     public RespStruct checkLogin(@ApiIgnore HttpServletRequest req) throws Exception{
-        return succ(getDreamerIdFromSession(req));
+        return succ(getDreamerInfoFromSession(req));
     }
     
     @ApiOperation(value = "查看用户信息", notes = "查看用户信息", response = Dreamer.class)
