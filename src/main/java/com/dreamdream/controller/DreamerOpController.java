@@ -40,8 +40,8 @@ public class DreamerOpController extends BaseController {
 
     @ApiOperation(value = "检查登录状态", notes = "检查登录状态", response = Dreamer.class)
     @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
-    public RespStruct checkLogin(){
-        return succ();
+    public RespStruct checkLogin(@ApiIgnore HttpServletRequest req) throws Exception{
+        return succ(getDreamerIdFromSession(req));
     }
     
     @ApiOperation(value = "查看用户信息", notes = "查看用户信息", response = Dreamer.class)

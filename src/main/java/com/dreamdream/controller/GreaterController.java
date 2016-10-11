@@ -39,7 +39,7 @@ public class GreaterController extends BaseController {
             dg.setCreateTime(DateUtils.getCurrentDateTime().toDate());
         dg.setStats(true);
         dgDao.insertOrUpdate(dg);
-        return succ();
+        return succ(dgDao.select(dg));
     }
     
     @ApiOperation(value = "取消给某个消息的赞", notes = "取消给某个消息的赞", response = RespStruct.class)
