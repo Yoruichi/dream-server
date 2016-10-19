@@ -1,5 +1,6 @@
 package com.dreamdream.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -13,14 +14,32 @@ public class DateUtils {
 
     public static String DEFAULT_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
+    public static String getTimeShow(Date time) {
+        long t = time.getTime();
+        long now = new Date().getTime();
+        if (t > now) {
+            return "刚刚";
+        } else {
+            long interval = now - t;
+            if (interval <= 3600000) {
+                return (interval / 60000) + "分钟前";
+            } else if (interval <= 86400000) {
+                return (interval / 3600000) + "小时前";
+            } else {
+                return new SimpleDateFormat("dd/MM").format(time);
+            }
+        }
+    }
+
     public static String getDateFormat(final DateTime dateTime, final String pattern) {
         return dateTime.toString(pattern);
     }
-    
+
     public static DateTime getNowHour() {
         DateTime n = DateTime.now(DateTimeZone.UTC);
         return n.minuteOfHour().setCopy(0).secondOfMinute().setCopy(0).millisOfSecond().setCopy(0);
     }
+
     /*
      * Use Joda time library to get current time and always return UTC time
      */

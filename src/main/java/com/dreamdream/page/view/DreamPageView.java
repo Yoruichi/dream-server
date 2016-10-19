@@ -12,6 +12,7 @@ public class DreamPageView {
     private List<DreamReplyView> replyList;
     private boolean isGreated;
     private List<String> imageList;
+    private String timeshow;
 
     public DreamMessageView getDreamMessageView() {
         return dreamMessageView;
@@ -57,6 +58,14 @@ public class DreamPageView {
 
     public void setImageList(List<String> imageList) {
         this.imageList = imageList;
+    }
+
+    public String getTimeshow() {
+        return timeshow;
+    }
+
+    public void setTimeshow(String timeshow) {
+        this.timeshow = timeshow;
     }
 
 }

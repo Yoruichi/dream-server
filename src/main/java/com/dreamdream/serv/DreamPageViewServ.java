@@ -13,6 +13,7 @@ import com.dreamdream.model.DreamGreater;
 import com.dreamdream.model.DreamMessage;
 import com.dreamdream.page.view.DreamPageView;
 import com.dreamdream.util.ConstString;
+import com.dreamdream.util.DateUtils;
 import com.dreamdream.view.DreamGreaterView;
 import com.dreamdream.view.DreamMessageView;
 import com.dreamdream.view.DreamReplyView;
@@ -38,6 +39,7 @@ public class DreamPageViewServ {
                 dpv.setImageList(Lists.newArrayList(dreamMessageView.getImage_url().split(",")));
             else
                 dpv.setImageList(Lists.newArrayList());
+            dpv.setTimeshow(DateUtils.getTimeShow(dreamMessageView.getMessageCreateTime()));
             //query dream reply view for this message
             DreamReplyView drv = new DreamReplyView();
             drv.setMessageId(dreamMessageView.getMessageId());
