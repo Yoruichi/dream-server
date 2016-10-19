@@ -10,6 +10,8 @@ public class DreamPageView {
     private DreamMessageView dreamMessageView;
     private List<DreamGreaterView> greaterList;
     private List<DreamReplyView> replyList;
+    private boolean isGreated;
+    private List<String> imageList;
 
     public DreamMessageView getDreamMessageView() {
         return dreamMessageView;
@@ -39,6 +41,22 @@ public class DreamPageView {
     public String toString() {
         return "DreamPageView [dreamMessageView=" + dreamMessageView + ", greaterList="
                 + greaterList + ", replyList=" + replyList + "]";
+    }
+
+    public boolean isGreated() {
+        return isGreated;
+    }
+
+    public void setGreated(boolean isGreated) {
+        this.isGreated = isGreated;
+    }
+
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
     }
 
 }

@@ -29,11 +29,12 @@ public class DreamPageViewServ {
     @Autowired
     private DreamGreaterDao dgDao;
     
-    private List<DreamPageView> fixedDreamPageView(List<DreamMessageView> dmvList) throws Exception {
+    private List<DreamPageView> fixedDreamPageView(List<DreamMessageView> dmvList, int dreamerId) throws Exception {
         List<DreamPageView> res = Lists.newLinkedList();
         for (DreamMessageView dreamMessageView : dmvList) {
             DreamPageView dpv = new DreamPageView();
             dpv.setDreamMessageView(dreamMessageView);
+            dpv.setImageList(Lists.newArrayList(dreamMessageView.getImage_url().split(",")));
             //query dream reply view for this message
             DreamReplyView drv = new DreamReplyView();
             drv.setMessageId(dreamMessageView.getMessageId());
@@ -54,12 +55,17 @@ public class DreamPageViewServ {
             dgv.setAsc(false);
             List<DreamGreaterView> greaterList = dgvDao.selectMany(dgv);
             dpv.setGreaterList(greaterList);
+            for (DreamGreaterView dreamGreaterView : greaterList) {
+                if(dreamGreaterView.getDreamerId().intValue() == (dreamerId)) {
+                    dpv.setGreated(true);
+                }
+            }
             res.add(dpv);
         }
         return res;        
     }
     
-    public List<DreamPageView> getDreamPageView(int sortType, int limit, int index) throws Exception {
+    public List<DreamPageView> getDreamPageView(int sortType, int limit, int index, int dreamerId) throws Exception {
         //query dream message view(s)
         DreamMessageView dmv = new DreamMessageView();
         dmv.setMessageStats(true);
@@ -67,10 +73,10 @@ public class DreamPageViewServ {
         dmv.setType(DreamMessage.DreamMessageType.PUBLIC.name());
         List<DreamMessageView> dmvList = dmvDao.selectMany(dmv, false, limit, index, "messageCreateTime");
         
-        return fixedDreamPageView(dmvList);
+        return fixedDreamPageView(dmvList, dreamerId);
     }
     
-    public List<DreamPageView> getSomeonesDreamPageView(int dreamerId, int limit, int index) throws Exception {
+    public List<DreamPageView> getSomeonesDreamPageView(int dreamerId, int limit, int index, int loginDreamerId) throws Exception {
         //query dream message view(s)
         DreamMessageView dmv = new DreamMessageView();
         dmv.setMessageStats(true);
@@ -79,10 +85,10 @@ public class DreamPageViewServ {
         dmv.setDreamerId(dreamerId);
         List<DreamMessageView> dmvList = dmvDao.selectMany(dmv, false, limit, index, "messageCreateTime");
         
-        return fixedDreamPageView(dmvList);
+        return fixedDreamPageView(dmvList, loginDreamerId);
     }
     
-    public List<DreamPageView> getSomeonesSomeTypeDreamPageView(String type, int dreamerId, int limit, int index) throws Exception {
+    public List<DreamPageView> getSomeonesSomeTypeDreamPageView(String type, int dreamerId, int limit, int index, int loginDreamerId) throws Exception {
         //query dream message view(s)
         DreamMessageView dmv = new DreamMessageView();
         dmv.setMessageStats(true);
@@ -91,10 +97,10 @@ public class DreamPageViewServ {
         dmv.setType(type);
         List<DreamMessageView> dmvList = dmvDao.selectMany(dmv, false, limit, index, "messageCreateTime");
         
-        return fixedDreamPageView(dmvList);
+        return fixedDreamPageView(dmvList, loginDreamerId);
     }
     
-    public List<DreamPageView> getSomeonesLikeDreamPageView(int dreamerId, int limit, int index) throws Exception {
+    public List<DreamPageView> getSomeonesLikeDreamPageView(int dreamerId, int limit, int index, int loginDreamerId) throws Exception {
         DreamGreater dg = new DreamGreater();
         dg.setDreamerId(dreamerId);
         dg.setStats(true);
@@ -115,6 +121,6 @@ public class DreamPageViewServ {
         dmv.setType(DreamMessage.DreamMessageType.PUBLIC.name());
         List<DreamMessageView> dmvList = dmvDao.selectMany(dmv, false, limit, index, "messageCreateTime");
         
-        return fixedDreamPageView(dmvList);
+        return fixedDreamPageView(dmvList, loginDreamerId);
     }
 }

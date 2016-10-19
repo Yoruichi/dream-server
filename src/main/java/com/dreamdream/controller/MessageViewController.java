@@ -36,13 +36,14 @@ public class MessageViewController extends BaseController {
             @ApiParam(value = "从第几条开始获取", required = true,
                     defaultValue = "0") @RequestParam() int index,
             @ApiIgnore HttpServletRequest session) throws Exception {
+        int loginDreamerId = getDreamerIdFromSession(session).intValue();
         if (DreamMessage.DreamMessageType.valueOf(type) == null)
             return failed(ConstString.NOT_VALID_MESSAGE_TYPE,
                     ConstString.NOT_VALID_MESSAGE_CONTENT_CODE);
         Integer dreamerId = getDreamerIdFromSession(session);
         if (!Strings.isNullOrEmpty(type) && DreamMessageType.valueOf(type) != null)
-            return succ(dpvServ.getSomeonesDreamPageView(dreamerId, limit, index));
-        return succ(dpvServ.getSomeonesSomeTypeDreamPageView(type, dreamerId, limit, index));
+            return succ(dpvServ.getSomeonesDreamPageView(dreamerId, limit, index, loginDreamerId));
+        return succ(dpvServ.getSomeonesSomeTypeDreamPageView(type, dreamerId, limit, index, loginDreamerId));
     }
     
     @ApiOperation(value = "查看自己收藏的消息流", notes = "查看自己收藏的消息流", response = DreamPageView.class)
@@ -54,7 +55,7 @@ public class MessageViewController extends BaseController {
             defaultValue = "0") @RequestParam() int index,
             @ApiIgnore HttpServletRequest session) throws Exception {
         Integer dreamerId = getDreamerIdFromSession(session);
-        return succ(dpvServ.getSomeonesLikeDreamPageView(dreamerId, limit, index));
+        return succ(dpvServ.getSomeonesLikeDreamPageView(dreamerId, limit, index, dreamerId));
     }
     @ApiOperation(value = "查看某个用户消息流", notes = "查看某个用户消息流", response = DreamPageView.class)
     @RequestMapping(value = "/checkSomeone", method = RequestMethod.POST)
@@ -65,7 +66,8 @@ public class MessageViewController extends BaseController {
                     defaultValue = "0") @RequestParam() int index,
             @ApiParam(value = "用户ID", required = true) @RequestParam() int dreamerId,
             @ApiIgnore HttpServletRequest session) throws Exception {
-        return succ(dpvServ.getSomeonesDreamPageView(dreamerId, limit, index));
+        int loginDreamerId = getDreamerIdFromSession(session).intValue();
+        return succ(dpvServ.getSomeonesDreamPageView(dreamerId, limit, index, loginDreamerId));
     }
     
     @ApiOperation(value = "查看发现页内的消息流", notes = "查看发现页内的消息流", response = DreamPageView.class)
@@ -76,6 +78,7 @@ public class MessageViewController extends BaseController {
             @ApiParam(value = "从第几条开始获取", required = true,
                     defaultValue = "0") @RequestParam() int index,
             @ApiIgnore HttpServletRequest session) throws Exception {
-        return succ(dpvServ.getDreamPageView(0, limit, index));
+        int loginDreamerId = getDreamerIdFromSession(session).intValue();
+        return succ(dpvServ.getDreamPageView(0, limit, index, loginDreamerId));
     }
 }
