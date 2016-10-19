@@ -34,7 +34,10 @@ public class DreamPageViewServ {
         for (DreamMessageView dreamMessageView : dmvList) {
             DreamPageView dpv = new DreamPageView();
             dpv.setDreamMessageView(dreamMessageView);
-            dpv.setImageList(Lists.newArrayList(dreamMessageView.getImage_url().split(",")));
+            if(dreamMessageView.getImage_url() != null)
+                dpv.setImageList(Lists.newArrayList(dreamMessageView.getImage_url().split(",")));
+            else
+                dpv.setImageList(Lists.newArrayList());
             //query dream reply view for this message
             DreamReplyView drv = new DreamReplyView();
             drv.setMessageId(dreamMessageView.getMessageId());
