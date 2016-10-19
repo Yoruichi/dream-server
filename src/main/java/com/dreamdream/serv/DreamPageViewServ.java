@@ -119,13 +119,16 @@ public class DreamPageViewServ {
             messageIdList.add(dreamGreater.getMessageId());
         }
         //query dream message view(s)
-        DreamMessageView dmv = new DreamMessageView();
-        dmv.in("messageId", messageIdList.toArray());
-        dmv.setMessageStats(true);
-        dmv.setDreamerStats(true);
-        dmv.setType(DreamMessage.DreamMessageType.PUBLIC.name());
-        List<DreamMessageView> dmvList = dmvDao.selectMany(dmv, false, limit, index, "messageCreateTime");
-        
-        return fixedDreamPageView(dmvList, loginDreamerId);
+        if(messageIdList.size() > 0) {
+            DreamMessageView dmv = new DreamMessageView();
+            dmv.in("messageId", messageIdList.toArray());
+            dmv.setMessageStats(true);
+            dmv.setDreamerStats(true);
+            dmv.setType(DreamMessage.DreamMessageType.PUBLIC.name());
+            List<DreamMessageView> dmvList = dmvDao.selectMany(dmv, false, limit, index, "messageCreateTime");
+            return fixedDreamPageView(dmvList, loginDreamerId);
+        } else {
+            return Lists.newArrayList();
+        }
     }
 }
