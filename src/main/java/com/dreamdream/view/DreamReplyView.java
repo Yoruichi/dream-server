@@ -15,6 +15,8 @@ public class DreamReplyView extends BasePo {
     private String nickName;
     private String avatarUrl;
     private Boolean dreamerStats;
+    private String replyNickName;
+    private String replyAvatarUrl;
 
     public Integer getReplyId() {
         return replyId;
@@ -96,13 +98,30 @@ public class DreamReplyView extends BasePo {
         this.dreamerStats = dreamerStats;
     }
 
+    public String getReplyNickName() {
+        return replyNickName;
+    }
+
+    public void setReplyNickName(String replyNickName) {
+        this.replyNickName = replyNickName;
+    }
+
+    public String getReplyAvatarUrl() {
+        return replyAvatarUrl;
+    }
+
+    public void setReplyAvatarUrl(String replyAvatarUrl) {
+        this.replyAvatarUrl = replyAvatarUrl;
+    }
+
     @Override
     public String toString() {
         return "DreamReplyView [replyId=" + replyId + ", messageId=" + messageId + ", dreamerId="
                 + dreamerId + ", content=" + content + ", replyDreamerId=" + replyDreamerId
                 + ", replyCreateTime=" + replyCreateTime + ", replyStats=" + replyStats
                 + ", nickName=" + nickName + ", avatarUrl=" + avatarUrl + ", dreamerStats="
-                + dreamerStats + "]";
+                + dreamerStats + ", replyNickName=" + replyNickName + ", replyAvatarUrl="
+                + replyAvatarUrl + "]";
     }
 
 }
