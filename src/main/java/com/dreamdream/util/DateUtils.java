@@ -17,7 +17,7 @@ public class DateUtils {
     public static String getTimeShow(Date time) {
         long t = time.getTime();
         long now = new Date().getTime();
-        if (t >= now || t < (now - 60000)) {
+        if (t > (now - 60000)) {
             return "刚刚";
         } else {
             long interval = now - t;
