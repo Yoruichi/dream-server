@@ -81,4 +81,13 @@ public class MessageViewController extends BaseController {
         int loginDreamerId = getDreamerIdFromSession(session).intValue();
         return succ(dpvServ.getDreamPageView(0, limit, index, loginDreamerId));
     }
+    
+    @ApiOperation(value = "查看某条消息", notes = "查看某条消息", response = DreamPageView.class)
+    @RequestMapping(value = "/check/one", method = RequestMethod.POST)
+    public RespStruct getMessageViewOne(
+            @ApiParam(value = "需要获取的消息的ID", required = true) @RequestParam int messageId,
+            @ApiIgnore HttpServletRequest session) throws Exception {
+        int loginDreamerId = getDreamerIdFromSession(session).intValue();
+        return succ(dpvServ.getDreamPageViewOne(messageId, loginDreamerId));
+    }
 }

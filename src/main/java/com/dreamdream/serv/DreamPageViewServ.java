@@ -81,6 +81,18 @@ public class DreamPageViewServ {
         return fixedDreamPageView(dmvList, dreamerId);
     }
     
+    public List<DreamPageView> getDreamPageViewOne(int messageId, int dreamerId) throws Exception {
+        //query dream message view(s)
+        DreamMessageView dmv = new DreamMessageView();
+        dmv.setMessageStats(true);
+        dmv.setDreamerStats(true);
+        dmv.setType(DreamMessage.DreamMessageType.PUBLIC.name());
+        dmv.setMessageId(messageId);
+        List<DreamMessageView> dmvList = dmvDao.selectMany(dmv);
+        
+        return fixedDreamPageView(dmvList, dreamerId);
+    }
+    
     public List<DreamPageView> getSomeonesDreamPageView(int dreamerId, int limit, int index, int loginDreamerId) throws Exception {
         //query dream message view(s)
         DreamMessageView dmv = new DreamMessageView();
